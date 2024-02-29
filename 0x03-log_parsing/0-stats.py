@@ -1,10 +1,12 @@
 #!/usr/bin/python3
+"""log parsing script"""
 
 import sys
 from collections import defaultdict
 
 
 def parse_line(line):
+    """parsing a line"""
     parts = line.split()
     if len(parts) != 10:
         return None
@@ -15,12 +17,14 @@ def parse_line(line):
 
 
 def print_metrics(total_file_size, status_code_counts):
-    print(f"Total file size: {total_file_size}")
+    """prints the metrics"""
+    print("Total file size: {}".format(total_file_size))
     for status_code in sorted(status_code_counts.keys()):
-        print(f"{status_code}: {status_code_counts[status_code]}")
+        print("{}: {}".format(status_code, status_code_counts[status_code]))
 
 
 def main():
+    """main function"""
     total_file_size = 0
     status_code_counts = defaultdict(int)
     line_count = 0
