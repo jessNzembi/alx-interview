@@ -1,35 +1,28 @@
 #!/usr/bin/python3
-"""utf-8 validation"""
+"""
+UTF-8 Validation
+"""
 
 
 def validUTF8(data):
     """
-    Function to check if the given sequence
-    of bytes follows UTF-8 encoding rules
+    Returns True if data is a valid UTF-8
+    encoding, else return False
     """
-    def check_following_bytes(data, start_index, num_following):
-        """Check if there are enough bytes remaining"""
-        if len(data) < start_index + num_following:
-            return False
-        for i in range(start_index + 1, start_index + num_following + 1):
-            if data[i] >> 6 != 0b10:
+    byte_count = 0
+
+    for i in data:
+        if byte_count == 0:
+            if i >> 5 == 0b110 or i >> 5 == 0b1110:
+                byte_count = 1
+            elif i >> 4 == 0b1110:
+                byte_count = 2
+            elif i >> 3 == 0b11110:
+                byte_count = 3
+            elif i >> 7 == 0b1:
                 return False
-        return True
-
-    i = 0
-    while i < len(data):
-        num_bytes = 0
-        mask = 0b10000000
-        while data[i] & mask:
-            num_bytes += 1
-            mask >>= 1
-
-        if num_bytes == 1 or num_bytes > 4:
-            return False
-
-        if not check_following_bytes(data, i, num_bytes - 1):
-            return False
-
-        i += 1
-
-    return True
+        else:
+            if i >> 6 != 0b10:
+                return False
+            byte_count -= 1
+    return byte_count == 0
