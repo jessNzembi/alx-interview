@@ -1,6 +1,9 @@
 #!/usr/bin/python3
+"""Making change"""
+
 
 def makeChange(coins, total):
+    """coin change problem"""
     if total <= 0:
         return 0
 
