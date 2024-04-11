@@ -7,6 +7,7 @@ def island_perimeter(grid):
     visited = set()
 
     def dfs(i, j):
+        """ depth first search"""
         if (i, j) in visited:
             return 0
         if i >= len(grid) or j >= len(grid) or \
